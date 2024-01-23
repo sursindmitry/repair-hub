@@ -3,7 +3,7 @@ name: codecov
 on:
   push:
     branches:
-      - feature/*
+      - develop
 
 jobs:
   codecov:
@@ -12,6 +12,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Build and Test Main
+        working-directory: .
+        run: ./gradlew build
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
