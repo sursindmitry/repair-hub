@@ -15,14 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
-@Transactional
 class RegisterFacadeServiceImplTest extends AbstractIntegrationTest {
 
   @Autowired
   private RegisterFacadeService registerFacadeService;
 
   @Test
-  @Rollback
+  @Transactional
   void register() {
     User user = new User();
     user.setId(1L);
