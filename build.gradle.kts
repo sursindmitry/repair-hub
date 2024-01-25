@@ -71,8 +71,9 @@ tasks {
     checkstyle {
         toolVersion = "10.12.5"
     }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
