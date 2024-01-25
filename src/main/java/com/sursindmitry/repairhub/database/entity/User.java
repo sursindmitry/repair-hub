@@ -1,7 +1,11 @@
 package com.sursindmitry.repairhub.database.entity;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -47,4 +51,9 @@ public class User {
   @OneToMany(mappedBy = "user", orphanRemoval = true)
   private final Set<EmailVerificationToken> emailVerificationTokens = new LinkedHashSet<>();
 
+  @ElementCollection(targetClass = Role.class)
+  @Enumerated(EnumType.STRING)
+  @CollectionTable(name = "users_roles")
+  @Column(name = "role")
+  private Set<Role> roles;
 }
