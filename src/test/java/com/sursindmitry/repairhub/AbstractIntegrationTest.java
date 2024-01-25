@@ -7,7 +7,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.lifecycle.Startables;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest {
   private static final PostgreSQLContainer<?> POSTGRES_SQL_CONTAINER =
       new PostgreSQLContainer<>("postgres:alpine")
           .withExposedPorts(5432)
