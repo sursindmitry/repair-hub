@@ -1,6 +1,8 @@
 package com.sursindmitry.repairhub.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.sursindmitry.repairhub.AbstractIntegrationTest;
 import com.sursindmitry.repairhub.database.entity.Role;
