@@ -27,6 +27,7 @@ val postgresqlVersion = "42.7.1"
 val liquibaseVersion = "4.25.1"
 val lombokVersion = "1.18.30"
 val testcontainersVersion = "1.19.3"
+val junitJupiterVersion = "5.10.1"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
@@ -40,6 +41,9 @@ dependencies {
     compileOnly("org.projectlombok:lombok:$lombokVersion")
 
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
