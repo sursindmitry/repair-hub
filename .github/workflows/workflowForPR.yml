@@ -23,4 +23,4 @@ jobs:
 
       - name: Build and Test Main
         working-directory: .
-        run: ./gradlew build
+        run: ./gradlew build --scan
