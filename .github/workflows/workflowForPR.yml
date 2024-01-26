@@ -45,4 +45,4 @@ jobs:
 
       - name: Build and Test Main
         working-directory: .
-        run: ./gradlew build --scan
+        run: ./gradlew build
