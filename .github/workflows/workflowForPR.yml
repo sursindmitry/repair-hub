@@ -21,12 +21,6 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Print Java version
-        run: java -version
-
-      - name: Print Gradle version
-        run: ./gradlew --version
-
       - name: Build and Test Main
         working-directory: .
         run: ./gradlew build --scan
