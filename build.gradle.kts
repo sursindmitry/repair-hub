@@ -51,6 +51,10 @@ dependencies {
 }
 
 tasks {
+    wrapper {
+        gradleVersion = "8.5"
+    }
+
     compileKotlin {
         kotlinOptions {
             jvmTarget = "17"
