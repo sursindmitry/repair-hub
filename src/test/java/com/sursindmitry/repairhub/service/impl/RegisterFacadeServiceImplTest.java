@@ -12,8 +12,6 @@ import jakarta.transaction.Transactional;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 class RegisterFacadeServiceImplTest extends AbstractIntegrationTest {
 
@@ -24,7 +22,6 @@ class RegisterFacadeServiceImplTest extends AbstractIntegrationTest {
   @Transactional
   void register() {
     User user = new User();
-    user.setId(1L);
     user.setEmail("test@gmail.com");
     user.setPassword("password");
     user.setFirstName("FirstName");
