@@ -90,7 +90,7 @@ tasks {
     jacocoTestReport {
         dependsOn(test)
         reports {
-            xml.required = false
+            xml.required = true
             csv.required = false
         }
     }
