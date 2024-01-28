@@ -46,9 +46,7 @@ jobs:
         run: ./gradlew build
 
       - name: Upload coverage reports to Codecov
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: |
-          curl -Os https://uploader.codecov.io/latest/linux/codecov
-          chmod +x codecov
-          ./codecov -t ${CODECOV_TOKEN}
+        uses: codecov/codecov-action@v4.0.0-beta.3
+        with:
+          env:
+            CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
