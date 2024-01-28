@@ -1,9 +1,11 @@
 package com.sursindmitry.repairhub.service.advice;
 
+import com.sursindmitry.repairhub.service.exception.EmailTokenNotFoundException;
 import com.sursindmitry.repairhub.service.exception.ErrorResponse;
 import com.sursindmitry.repairhub.service.exception.MessagingLogicException;
 import com.sursindmitry.repairhub.service.exception.MustBeNullException;
 import com.sursindmitry.repairhub.service.exception.MustNotBeNullOrEmptyException;
+import com.sursindmitry.repairhub.service.exception.TokenExpirationTimeException;
 import com.sursindmitry.repairhub.service.exception.UserIsExistingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -52,6 +54,26 @@ public class ServiceExceptionHandler {
       UserIsExistingException ex) {
 
     log.error(ex.getMessage(), ex.getEmail());
+    ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(EmailTokenNotFoundException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ResponseEntity<ErrorResponse> handleEmailTokenNotFoundException(
+      EmailTokenNotFoundException ex) {
+
+    log.error(ex.getMessage());
+    ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(TokenExpirationTimeException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ResponseEntity<ErrorResponse> handleTokenExpirationTimeException(
+      TokenExpirationTimeException ex) {
+
+    log.error(ex.getMessage());
     ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
