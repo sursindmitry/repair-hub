@@ -30,19 +30,25 @@ val lombokVersion = "1.18.30"
 val testcontainersVersion = "1.19.3"
 val junitJupiterVersion = "5.10.1"
 val jacocoVersion = "0.8.11"
+val mapstructVersion = "1.5.5.Final"
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-mail:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion")
-    implementation("org.jacoco:org.jacoco.core:$jacocoVersion")
+    implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
 
+
+    implementation("org.jacoco:org.jacoco.core:$jacocoVersion")
+    implementation("org.mapstruct:mapstruct:$mapstructVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
 
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+    annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

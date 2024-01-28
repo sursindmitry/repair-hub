@@ -1,5 +1,6 @@
 package com.sursindmitry.repairhub.service.advice;
 
+import com.sursindmitry.repairhub.service.exception.ErrorResponse;
 import com.sursindmitry.repairhub.service.exception.MessagingLogicException;
 import com.sursindmitry.repairhub.service.exception.MustBeNullException;
 import com.sursindmitry.repairhub.service.exception.MustNotBeNullOrEmptyException;
@@ -17,38 +18,42 @@ public class ServiceExceptionHandler {
 
   @ExceptionHandler(MessagingLogicException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ResponseEntity<String> handleMessagingLogicException(
+  public ResponseEntity<ErrorResponse> handleMessagingLogicException(
       MessagingLogicException ex) {
 
     log.error(ex.getMessage());
-    return ResponseEntity.badRequest().body(ex.getMessage());
+    ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(MustBeNullException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ResponseEntity<String> handleMustBeNullException(
+  public ResponseEntity<ErrorResponse> handleMustBeNullException(
       MustBeNullException ex) {
 
     log.error(ex.getMessage());
-    return ResponseEntity.badRequest().body(ex.getMessage());
+    ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(MustNotBeNullOrEmptyException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ResponseEntity<String> handleMustNotBeNullOrEmptyException(
+  public ResponseEntity<ErrorResponse> handleMustNotBeNullOrEmptyException(
       MustNotBeNullOrEmptyException ex) {
 
     log.error(ex.getMessage());
-    return ResponseEntity.badRequest().body(ex.getMessage());
+    ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(UserIsExistingException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ResponseEntity<String> handleUserIsExistingException(
+  public ResponseEntity<ErrorResponse> handleUserIsExistingException(
       UserIsExistingException ex) {
 
     log.error(ex.getMessage(), ex.getEmail());
-    return ResponseEntity.badRequest().body(ex.getMessage());
+    ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
 }
