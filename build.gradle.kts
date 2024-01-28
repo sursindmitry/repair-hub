@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.2.1"
     id("io.spring.dependency-management") version "1.1.4"
     checkstyle
+    jacoco
 }
 
 group = "com.sursindmitry"
@@ -28,12 +29,13 @@ val liquibaseVersion = "4.25.1"
 val lombokVersion = "1.18.30"
 val testcontainersVersion = "1.19.3"
 val junitJupiterVersion = "5.10.1"
-
+val jacocoVersion = "0.8.11"
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-mail:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion")
+    implementation("org.jacoco:org.jacoco.core:$jacocoVersion")
 
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
