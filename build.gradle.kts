@@ -31,6 +31,7 @@ val testcontainersVersion = "1.19.3"
 val junitJupiterVersion = "5.10.1"
 val jacocoVersion = "0.8.11"
 val mapstructVersion = "1.5.5.Final"
+val openapiVersion = "2.3.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
@@ -38,8 +39,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
-
-
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$openapiVersion")
     implementation("org.jacoco:org.jacoco.core:$jacocoVersion")
     implementation("org.mapstruct:mapstruct:$mapstructVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
