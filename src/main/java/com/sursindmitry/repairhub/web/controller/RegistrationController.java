@@ -13,7 +13,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,15 +38,17 @@ public class RegistrationController {
   @Operation(
       description = "Register user",
       responses = {
-          @ApiResponse(responseCode = "200", description = "Register User")
+          @ApiResponse(responseCode = "201", description = "Register User")
       }
   )
-  public RegisterResponseDto register(
+  public ResponseEntity<RegisterResponseDto> register(
       @Valid @RequestBody RegisterRequestDto requestDto) {
     User user = registerMapper.toEntity(requestDto);
 
-    return registerMapper.toDto(registerFacadeService.register(user),
+    RegisterResponseDto response = registerMapper.toDto(registerFacadeService.register(user),
         "Вы зарегистрировались. Подтвердите почту.");
+
+    return new ResponseEntity<>(response, HttpStatus.CREATED);
   }
 
   @GetMapping("/verification")
@@ -54,8 +58,12 @@ public class RegistrationController {
           @ApiResponse(responseCode = "200", description = "Verification User")
       }
   )
-  public VerificationResponse verification(@RequestParam String token) {
-    return verificationMapper.toDto(verificationService.verification(token),
-        "Вы подтвердили почту. Войдите в аккаунт");
+  public ResponseEntity<VerificationResponse> verification(@RequestParam String token) {
+
+    VerificationResponse response =
+        verificationMapper.toDto(verificationService.verification(token),
+            "Вы подтвердили почту. Войдите в аккаунт");
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }
