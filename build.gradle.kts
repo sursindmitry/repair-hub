@@ -32,11 +32,13 @@ val junitJupiterVersion = "5.10.1"
 val jacocoVersion = "0.8.11"
 val mapstructVersion = "1.5.5.Final"
 val openapiVersion = "2.3.0"
+val jjwtVersion = "0.12.4"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-mail:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$openapiVersion")
@@ -44,6 +46,9 @@ dependencies {
     implementation("org.mapstruct:mapstruct:$mapstructVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
+    implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
+    runtimeOnly ("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
+    runtimeOnly ("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
 
