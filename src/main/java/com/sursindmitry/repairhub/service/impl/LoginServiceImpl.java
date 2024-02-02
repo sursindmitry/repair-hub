@@ -36,7 +36,7 @@ public class LoginServiceImpl implements LoginService {
     if (passwordEncoder.matches(CharBuffer.wrap(request.password()), user.getPassword())) {
       String token = generateToken(request.email(), user.getAuthorities());
 
-      RefreshToken refreshToken = refreshTokenService.creteRefreshToken(request.email());
+      RefreshToken refreshToken = refreshTokenService.createRefreshToken(request.email());
 
       return new JwtResponse(token, refreshToken.getRefreshToken(), request.email());
     }

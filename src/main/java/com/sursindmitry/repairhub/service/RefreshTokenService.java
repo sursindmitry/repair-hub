@@ -4,7 +4,7 @@ import com.sursindmitry.repairhub.database.entity.RefreshToken;
 import com.sursindmitry.repairhub.web.dto.JwtResponse;
 
 public interface RefreshTokenService {
-  RefreshToken creteRefreshToken(String username);
+  RefreshToken createRefreshToken(String username);
 
   JwtResponse verifyRefreshToken(String refreshToken);
 }
