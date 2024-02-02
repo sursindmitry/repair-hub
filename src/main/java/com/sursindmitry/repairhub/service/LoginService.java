@@ -1,8 +1,8 @@
 package com.sursindmitry.repairhub.service;
 
-import com.sursindmitry.repairhub.web.dto.LoginRequest;
-import com.sursindmitry.repairhub.web.dto.LoginResponse;
+import com.sursindmitry.repairhub.web.dto.JwtRequest;
+import com.sursindmitry.repairhub.web.dto.JwtResponse;
 
 public interface LoginService {
-  LoginResponse login(LoginRequest request);
+  JwtResponse login(JwtRequest request);
 }

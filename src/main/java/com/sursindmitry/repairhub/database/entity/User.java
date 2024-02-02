@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -54,14 +55,17 @@ public class User implements UserDetails {
   @Column(name = "active")
   private boolean active;
 
-  @OneToMany(mappedBy = "user", orphanRemoval = true)
-  private final Set<EmailVerificationToken> emailVerificationTokens = new LinkedHashSet<>();
-
   @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
   @Enumerated(EnumType.STRING)
   @CollectionTable(name = "users_roles")
   @Column(name = "role")
   private Set<Role> roles;
+
+  @OneToMany(mappedBy = "user", orphanRemoval = true)
+  private final Set<EmailVerificationToken> emailVerificationTokens = new LinkedHashSet<>();
+
+  @OneToOne(mappedBy = "user", orphanRemoval = true)
+  private RefreshToken refreshToken;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

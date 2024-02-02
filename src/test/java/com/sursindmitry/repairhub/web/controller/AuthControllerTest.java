@@ -8,8 +8,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.sursindmitry.repairhub.config.security.SecurityConfig;
+import com.sursindmitry.repairhub.config.security.UserAuthenticationEntryPoint;
+import com.sursindmitry.repairhub.config.security.WebConfig;
+import com.sursindmitry.repairhub.config.security.jwt.UserAuthProvider;
 import com.sursindmitry.repairhub.database.entity.Role;
 import com.sursindmitry.repairhub.database.entity.User;
+import com.sursindmitry.repairhub.service.LoginService;
+import com.sursindmitry.repairhub.service.RefreshTokenService;
 import com.sursindmitry.repairhub.service.RegisterFacadeService;
 import com.sursindmitry.repairhub.service.VerificationService;
 import com.sursindmitry.repairhub.web.mapper.RegisterMapperImpl;
@@ -22,13 +28,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-@AutoConfigureWebClient
+@ContextConfiguration(classes = {WebConfig.class, SecurityConfig.class})
 @Import({RegisterMapperImpl.class, VerificationMapperImpl.class})
-@WebMvcTest(controllers = RegistrationController.class)
-class RegistrationControllerTest {
+@WebMvcTest(controllers = AuthController.class)
+class AuthControllerTest {
 
   @MockBean
   private RegisterFacadeService registerFacadeService;
@@ -36,8 +43,22 @@ class RegistrationControllerTest {
   @MockBean
   private VerificationService verificationService;
 
+  @MockBean
+  private UserAuthProvider userAuthProvider;
+
+  @MockBean
+  private LoginService loginService;
+
+  @MockBean
+  private RefreshTokenService refreshTokenService;
+
+  @MockBean
+  private UserAuthenticationEntryPoint userAuthenticationEntryPoint;
+
+
   @Autowired
   private MockMvc mvc;
+
 
   @Test
   void register() throws Exception {
@@ -50,20 +71,20 @@ class RegistrationControllerTest {
         .active(false)
         .roles(Collections.singleton(Role.ROLE_USER))
         .build();
-
     when(registerFacadeService.register(any(User.class))).thenReturn(user);
 
-    ResultActions response = mvc.perform(post("/v1/auth/register")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content("""
-              {
-                  "email": "test@gmail.com",
-                  "firstName": "FistName",
-                  "lastName": "LastName",
-                  "password": "password"
-              }
-            """
-        )
+    ResultActions response = mvc.perform(
+        post("/v1/auth/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                  {
+                      "email": "test@gmail.com",
+                      "firstName": "FistName",
+                      "lastName": "LastName",
+                      "password": "password"
+                  }
+                """
+            )
     );
 
     response
@@ -77,6 +98,7 @@ class RegistrationControllerTest {
 
         );
   }
+
 
   @Test
   void verification() throws Exception {

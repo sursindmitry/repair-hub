@@ -1,7 +1,9 @@
 package com.sursindmitry.repairhub.web.dto;
 
-public record LoginResponse(
+public record JwtResponse(
     String token,
+
+    String refreshToken,
 
     String email
 ) {

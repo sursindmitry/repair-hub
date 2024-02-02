@@ -23,7 +23,7 @@ repositories {
     mavenCentral()
 }
 
-val springBootVersion = "3.2.1"
+val springBootVersion = "3.2.2"
 val postgresqlVersion = "42.7.1"
 val liquibaseVersion = "4.25.1"
 val lombokVersion = "1.18.30"

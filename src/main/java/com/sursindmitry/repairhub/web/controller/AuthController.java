@@ -1,11 +1,14 @@
 package com.sursindmitry.repairhub.web.controller;
 
+import com.sursindmitry.repairhub.database.entity.RefreshToken;
 import com.sursindmitry.repairhub.database.entity.User;
 import com.sursindmitry.repairhub.service.LoginService;
+import com.sursindmitry.repairhub.service.RefreshTokenService;
 import com.sursindmitry.repairhub.service.RegisterFacadeService;
 import com.sursindmitry.repairhub.service.VerificationService;
-import com.sursindmitry.repairhub.web.dto.LoginRequest;
-import com.sursindmitry.repairhub.web.dto.LoginResponse;
+import com.sursindmitry.repairhub.web.dto.JwtRequest;
+import com.sursindmitry.repairhub.web.dto.JwtResponse;
+import com.sursindmitry.repairhub.web.dto.RefreshTokenRequest;
 import com.sursindmitry.repairhub.web.dto.RegisterRequestDto;
 import com.sursindmitry.repairhub.web.dto.RegisterResponseDto;
 import com.sursindmitry.repairhub.web.dto.VerificationResponse;
@@ -15,7 +18,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,10 +36,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/v1/auth", produces = MediaType.APPLICATION_JSON_VALUE)
-public class RegistrationController {
+public class AuthController {
   private final RegisterFacadeService registerFacadeService;
   private final VerificationService verificationService;
   private final LoginService loginService;
+  private final RefreshTokenService refreshTokenService;
 
   private final RegisterMapper registerMapper;
   private final VerificationMapper verificationMapper;
@@ -73,9 +79,17 @@ public class RegistrationController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-    LoginResponse response = loginService.login(request);
+  public ResponseEntity<JwtResponse> login(@Valid @RequestBody JwtRequest request) {
+    JwtResponse response = loginService.login(request);
 
     return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+
+  @PostMapping("/refresh")
+  public ResponseEntity<JwtResponse> refreshJwtToken(
+      @Valid @RequestBody RefreshTokenRequest request) {
+    JwtResponse refreshToken = refreshTokenService.verifyRefreshToken(request.refreshToken());
+
+    return new ResponseEntity<>(refreshToken, HttpStatus.OK);
   }
 }
