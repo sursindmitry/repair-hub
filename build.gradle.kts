@@ -24,6 +24,7 @@ repositories {
 }
 
 val springBootVersion = "3.2.2"
+val springframeworkVersion = "6.2.1"
 val postgresqlVersion = "42.7.1"
 val liquibaseVersion = "4.25.1"
 val lombokVersion = "1.18.30"
@@ -47,8 +48,8 @@ dependencies {
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("org.liquibase:liquibase-core:$liquibaseVersion")
     implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
-    runtimeOnly ("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
-    runtimeOnly ("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
 
@@ -61,6 +62,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
     testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
+    testImplementation("org.springframework.security:spring-security-test:$springframeworkVersion")
+
 }
 
 tasks {

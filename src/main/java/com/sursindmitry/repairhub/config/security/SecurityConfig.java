@@ -39,14 +39,16 @@ public class SecurityConfig {
 
     http.authorizeHttpRequests((request) -> {
       request.requestMatchers(HttpMethod.POST,
-          "/v1/auth/login",
-          "/v1/auth/refresh",
-          "/v1/auth/register")
+              "/v1/auth/login",
+              "/v1/auth/refresh",
+              "/v1/auth/register")
           .permitAll();
 
       request.requestMatchers(HttpMethod.GET,
-          "/v1/auth/verification")
+              "/v1/auth/verification")
           .permitAll();
+
+      request.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
 
       request.requestMatchers("/v1/user/**").hasRole("USER");
       request.requestMatchers("/v1/admin/**").hasRole("ADMIN");

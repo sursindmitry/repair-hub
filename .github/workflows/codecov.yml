@@ -31,6 +31,7 @@ jobs:
           echo "HOUR_EXPIRATION_TOKEN_EMAIL=${{ secrets.HOUR_EXPIRATION_TOKEN_EMAIL }}" >> $GITHUB_ENV
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
           echo "HOUR_EXPIRATION_TOKEN_JWT=${{ secrets.HOUR_EXPIRATION_TOKEN_JWT }}" >> $GITHUB_ENV
+          echo "HOUR_EXPIRATION_REFRESH_TOKEN_JWT=${{ secrets.HOUR_EXPIRATION_REFRESH_TOKEN_JWT }}" >> $GITHUB_ENV
           
           echo "spring.config.import=optional:file:.env" >> $GITHUB_ENV
 
@@ -44,6 +45,7 @@ jobs:
           echo "HOUR_EXPIRATION_TOKEN_EMAIL=${{ secrets.HOUR_EXPIRATION_TOKEN_EMAIL }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "HOUR_EXPIRATION_TOKEN_JWT=${{ secrets.HOUR_EXPIRATION_TOKEN_JWT }}" >> .env
+          echo "HOUR_EXPIRATION_REFRESH_TOKEN_JWT=${{ secrets.HOUR_EXPIRATION_REFRESH_TOKEN_JWT }}" >> .env
 
       - name: Build and Test Main
         working-directory: .

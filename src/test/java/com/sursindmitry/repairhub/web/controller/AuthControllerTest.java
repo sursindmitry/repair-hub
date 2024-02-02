@@ -8,33 +8,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.sursindmitry.repairhub.config.security.SecurityConfig;
-import com.sursindmitry.repairhub.config.security.UserAuthenticationEntryPoint;
-import com.sursindmitry.repairhub.config.security.WebConfig;
-import com.sursindmitry.repairhub.config.security.jwt.UserAuthProvider;
 import com.sursindmitry.repairhub.database.entity.Role;
 import com.sursindmitry.repairhub.database.entity.User;
-import com.sursindmitry.repairhub.service.LoginService;
-import com.sursindmitry.repairhub.service.RefreshTokenService;
 import com.sursindmitry.repairhub.service.RegisterFacadeService;
 import com.sursindmitry.repairhub.service.VerificationService;
-import com.sursindmitry.repairhub.web.mapper.RegisterMapperImpl;
-import com.sursindmitry.repairhub.web.mapper.VerificationMapperImpl;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-@ContextConfiguration(classes = {WebConfig.class, SecurityConfig.class})
-@Import({RegisterMapperImpl.class, VerificationMapperImpl.class})
-@WebMvcTest(controllers = AuthController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class AuthControllerTest {
 
   @MockBean
@@ -43,22 +33,11 @@ class AuthControllerTest {
   @MockBean
   private VerificationService verificationService;
 
-  @MockBean
-  private UserAuthProvider userAuthProvider;
-
-  @MockBean
-  private LoginService loginService;
-
-  @MockBean
-  private RefreshTokenService refreshTokenService;
-
-  @MockBean
-  private UserAuthenticationEntryPoint userAuthenticationEntryPoint;
-
-
   @Autowired
   private MockMvc mvc;
 
+  @Value("${spring.application.base-url}")
+  private String baseUrl;
 
   @Test
   void register() throws Exception {
@@ -74,7 +53,7 @@ class AuthControllerTest {
     when(registerFacadeService.register(any(User.class))).thenReturn(user);
 
     ResultActions response = mvc.perform(
-        post("/v1/auth/register")
+        post(this.baseUrl + "/auth/register")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
                   {
@@ -114,7 +93,7 @@ class AuthControllerTest {
 
     when(verificationService.verification(any(String.class))).thenReturn(user);
 
-    ResultActions response = mvc.perform(get("/v1/auth/verification")
+    ResultActions response = mvc.perform(get(this.baseUrl + "/auth/verification")
         .param("token", "token")
     );
 
