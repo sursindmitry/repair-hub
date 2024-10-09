@@ -8,27 +8,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.sursindmitry.repairhub.AbstractIntegrationTest;
 import com.sursindmitry.repairhub.database.entity.Role;
 import com.sursindmitry.repairhub.database.entity.User;
 import com.sursindmitry.repairhub.service.RegisterFacadeService;
 import com.sursindmitry.repairhub.service.VerificationService;
-import com.sursindmitry.repairhub.web.mapper.RegisterMapperImpl;
-import com.sursindmitry.repairhub.web.mapper.VerificationMapperImpl;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-@AutoConfigureWebClient
-@Import({RegisterMapperImpl.class, VerificationMapperImpl.class})
-@WebMvcTest(controllers = RegistrationController.class)
-class RegistrationControllerTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+class AuthControllerTest extends AbstractIntegrationTest {
 
   @MockBean
   private RegisterFacadeService registerFacadeService;
@@ -38,6 +36,9 @@ class RegistrationControllerTest {
 
   @Autowired
   private MockMvc mvc;
+
+  @Value("${spring.application.base-url}")
+  private String baseUrl;
 
   @Test
   void register() throws Exception {
@@ -50,20 +51,20 @@ class RegistrationControllerTest {
         .active(false)
         .roles(Collections.singleton(Role.ROLE_USER))
         .build();
-
     when(registerFacadeService.register(any(User.class))).thenReturn(user);
 
-    ResultActions response = mvc.perform(post("/v1/auth/register")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content("""
-              {
-                  "email": "test@gmail.com",
-                  "firstName": "FistName",
-                  "lastName": "LastName",
-                  "password": "password"
-              }
-            """
-        )
+    ResultActions response = mvc.perform(
+        post(this.baseUrl + "/auth/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                  {
+                      "email": "test@gmail.com",
+                      "firstName": "FistName",
+                      "lastName": "LastName",
+                      "password": "password"
+                  }
+                """
+            )
     );
 
     response
@@ -77,6 +78,7 @@ class RegistrationControllerTest {
 
         );
   }
+
 
   @Test
   void verification() throws Exception {
@@ -92,7 +94,7 @@ class RegistrationControllerTest {
 
     when(verificationService.verification(any(String.class))).thenReturn(user);
 
-    ResultActions response = mvc.perform(get("/v1/auth/verification")
+    ResultActions response = mvc.perform(get(this.baseUrl + "/auth/verification")
         .param("token", "token")
     );
 

@@ -9,12 +9,15 @@ import com.sursindmitry.repairhub.service.exception.MustNotBeNullOrEmptyExceptio
 import com.sursindmitry.repairhub.service.exception.UserIsExistingException;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
   private final UserRepository userRepository;
+
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public User register(User user) {
@@ -25,6 +28,7 @@ public class RegistrationServiceImpl implements RegistrationService {
           "User already exists.", existingUser.getEmail());
     });
 
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setActive(false);
     user.setRoles(Collections.singleton(Role.ROLE_USER));
 

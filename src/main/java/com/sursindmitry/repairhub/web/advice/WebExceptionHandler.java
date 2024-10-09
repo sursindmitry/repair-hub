@@ -34,7 +34,7 @@ public class WebExceptionHandler {
       Exception ex) {
 
     log.error(ex.getMessage());
-    ErrorResponse errorResponse = new ErrorResponse(ex.getMessage());
+    ErrorResponse errorResponse = new ErrorResponse("Backend exception");
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 }

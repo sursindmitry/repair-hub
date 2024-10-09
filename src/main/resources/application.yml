@@ -16,8 +16,11 @@ spring:
 
   application:
     base-url: http://localhost:8080/v1
+    jwt-secret: ${JWT_SECRET}
     expiration:
       token:
+        jwt-token: ${HOUR_EXPIRATION_TOKEN_JWT}
+        jwt-token-refresh: ${HOUR_EXPIRATION_REFRESH_TOKEN_JWT}
         verification-email: ${HOUR_EXPIRATION_TOKEN_EMAIL}
 
   datasource:
@@ -39,3 +42,7 @@ spring:
     enabled: true
 server:
   port: 8080
+
+logging:
+  level:
+    org.springframework.security: TRACE

@@ -16,6 +16,7 @@ public interface RegisterMapper {
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "active", ignore = true)
   @Mapping(target = "roles", ignore = true)
+  @Mapping(target = "refreshToken", ignore = true)
   User toEntity(RegisterRequestDto dto);
 
   @Mapping(source = "entity.email", target = "email")
